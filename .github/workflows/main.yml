@@ -1,0 +1,525 @@
+รีแอ็กต์เราเตอร์
+
+รหัส
+ดึงคำขอ
+การกระทำ
+รีแอ็กต์เราเตอร์/ .กิตฮับ/ เวิร์กโฟลว์
+-
+main.yml
+ใน
+หลัก
+
+แก้ไข
+
+ตัวอย่าง
+กำลังโหลดตัวอย่าง…
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+
+const { loadConfig } = require('./antispamConfigLoader');
+const config = loadConfig()
+
+ฟังก์ชั่น isSpam(ข้อความ, ชื่อผู้ใช้) {
+  หาก (config.antispam.block_usernames.includes(ชื่อผู้ใช้)) {
+    กลับ { สแปม-เป็นจริง เหตุผล: "ชื่อผู้ใช้ถูกบล็อค" };
+  -
+  สำหรับ (const kw ของ config.antispam.block_keywords) {
+    ถ้า (message.toLowerCase().includes(kw.toLowerCase())) {
+      กลับ { สแปม-จริง เหตุผล: `คีย์เวิร์ดที่ถูกบล็อค: ${kw}` };
+    -
+  -
+  หาก (config.antispam.block_links และ /https?:\/\/.test(ข้อความ)) {
+    กลับ { สแปม-จริง เหตุผล: "ลิงค์ถูกบล็อค" };
+  -
+  กลับ { สแปม-เท็จ เหตุผล: "" };
+-
+
+ฟังก์ชัน bugfixEnabled() {
+  ส่งคืน config.bugfix และ config.bugfix.enable_auto_patch;
+-
+
+// อธิบายการใช้งาน
+ถ้า (require.main === โมดูล) {
+  const userMessage = "นี่เป็นข้อเสนอฟรี คลิกที่นี่-http://spam.com";
+  const ชื่อผู้ใช้ = "spammer2";
+  const { spam, reason } = isSpam(userMessage, ชื่อผู้ใช้);
+  console.log("เป็นสแปมหรือไม่", สแปม, "| เหตุผล:", เหตุผล);
+  console.log("เปิดใช้งานการแก้ไขข้อบกพร่องอัตโนมัติแล้วหรือไม่", bugfixEnabled());
+}นำเข้าอีกครั้ง
+จาก antispam_config_loader นำเข้า load_config
+
+การกำหนดค่า = โหลด_การกำหนดค่า()
+
+def is_spam(ข้อความ, ชื่อผู้ใช้)-
+    -ขีดจำกัดอัตราการถ่ายภาพ (ระบบมีระบบนับแล้ว)
+    หากชื่อผู้ใช้อยู่ใน config.get("antispam", {}).get("block_usernames", [])-
+        กลับเป็น True, “ชื่อผู้ใช้ถูกบล็อค”
+
+    -คีย์เวิร์ดตัดการหยุด
+    สำหรับ kw ใน config["antispam"]["block_keywords"]-
+        ถ้า kw.lower() อยู่ใน message.lower()-
+            กลับเป็น True, f"คีย์เวิร์ดที่ถูกบล็อค-{กิโลวัตต์}"
+
+    -ตัดต่อลิงค์
+    หาก config["antispam"].get("block_links", False)-
+        ถ้า re.search(r'https?://', ​​ข้อความ)-
+            กลับเป็น True, “ลิงค์ถูกบล็อค”
+
+    กลับเป็น False, ""
+
+def bugfix_enabled()-
+    ส่งคืน config.get("bugfix", {}).get("enable_auto_patch", False)
+
+-อธิบายการใช้งาน
+ถ้า __name__ == "__main__"-
+    user_message = "ซื้อเลยที่ https://spamlink.com"
+    ชื่อผู้ใช้ = "spammer1"
+    สแปม, เหตุผล = is_spam(ข้อความผู้ใช้, ชื่อผู้ใช้)
+    พิมพ์("เป็นสแปมหรือไม่?", สแปม, "| เหตุผล:", เหตุผล)
+    พิมพ์("เปิดใช้งานการแก้ไขข้อบกพร่องอัตโนมัติแล้วหรือไม่", bugfix_enabled())
+พบผลลัพธ์ 10 รายการ
+การนำทางแผงช่วยเหลือ
+ตลาดซื้อขาย
+เอกสารประกอบ
+การเริ่มต้นใช้งานเวิร์กโฟลว์
+คู่มือนี้จะแสดงตัวอย่างพื้นฐานบางส่วนเพื่อช่วยให้คุณเริ่มต้นใช้งานได้ สำหรับเอกสาร GitHub Actions ฉบับเต็มเกี่ยวกับเวิร์กโฟลว์ โปรดดู " การกำหนดค่าเวิร์กโฟลว์ "
+
+การปรับแต่งเมื่อเวิร์กโฟลว์ถูกเรียกใช้
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานบนเหตุการณ์พุชไปยังสาขาmainและrelease/*
+
+on:
+  push:
+    branches:
+    - main
+    - release/*
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานตามpull_requestเหตุการณ์ที่กำหนดเป้าหมายที่mainสาขา
+
+on:
+  pull_request:
+    branches:
+    - main
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานทุกวันในสัปดาห์ตั้งแต่วันจันทร์ถึงวันศุกร์ เวลา 2:00 น. UTC
+
+on:
+  schedule:
+  - cron: "0 2 * * 1-5"
+สำหรับข้อมูลเพิ่มเติม โปรดดู " เหตุการณ์ที่ทริกเกอร์เวิร์กโฟลว์ "
+
+การรันเวิร์กโฟลว์ด้วยตนเอง
+หากต้องการเรียกใช้เวิร์กโฟลว์ด้วยตนเอง คุณสามารถกำหนดค่าเวิร์กโฟลว์ของคุณให้ใช้workflow_dispatchเหตุการณ์ดังกล่าวได้ ซึ่งจะเปิดใช้งานปุ่ม "เรียกใช้เวิร์กโฟลว์" บนแท็บการดำเนินการ
+
+on:
+  workflow_dispatch:
+สำหรับข้อมูลเพิ่มเติม โปรดดู " การเรียกใช้เวิร์กโฟลว์ด้วยตนเอง "
+
+การรันงานของคุณบนระบบปฏิบัติการที่แตกต่างกัน
+GitHub Actions จัดเตรียมโฮสต์รันเนอร์สำหรับ Linux, Windows และ macOS
+
+หากต้องการตั้งค่าระบบปฏิบัติการให้กับงานของคุณ ให้ระบุระบบปฏิบัติการโดยใช้runs-on:
+
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
+ประเภทเครื่องเสมือนที่มีอยู่คือ:
+
+ubuntu-latest, ubuntu-22.04, หรือubuntu-20.04
+windows-latest, windows-2022, หรือwindows-2019
+macos-latest, macos-13, หรือmacos-12
+สำหรับข้อมูลเพิ่มเติม โปรดดู " สภาพแวดล้อมเสมือนสำหรับ GitHub Actions "
+
+การใช้การกระทำ
+Actions คือหน่วยโค้ดที่สามารถนำมาใช้ซ้ำได้ ซึ่งใครๆ ก็สร้างและแจกจ่ายได้บน GitHub คุณสามารถค้นหา Actions ต่างๆ ได้ในGitHub Marketplaceและในคลัง Actions อย่างเป็น ทางการ
+
+หากต้องการใช้การดำเนินการ คุณต้องระบุที่เก็บข้อมูลที่มีการดำเนินการนั้น นอกจากนี้ เราขอแนะนำให้คุณระบุแท็ก Git เพื่อให้แน่ใจว่าคุณใช้การดำเนินการเวอร์ชันที่เผยแพร่แล้ว
+
+- name: Setup Node
+  uses: actions/setup-node@v4
+  with:
+    node-version: '20.x'
+สำหรับข้อมูลเพิ่มเติม โปรดดู " รูปแบบเวิร์กโฟลว์สำหรับ GitHub Actions "
+
+การรันคำสั่ง
+คุณสามารถรันคำสั่งบนเครื่องเสมือนของงานได้
+
+- name: Install Dependencies
+  run: npm install
+สำหรับข้อมูลเพิ่มเติม โปรดดู " รูปแบบเวิร์กโฟลว์สำหรับ GitHub Actions "
+
+การรันงานผ่านเมทริกซ์ของระบบปฏิบัติการและเวอร์ชันรันไทม์
+คุณสามารถรันงานโดยอัตโนมัติผ่านชุดค่าที่แตกต่างกัน เช่น ไลบรารีโค้ดหรือระบบปฏิบัติการที่แตกต่างกัน
+
+ตัวอย่างเช่น งานนี้ใช้กลยุทธ์เมทริกซ์เพื่อทำงานบน Node 3 เวอร์ชันและระบบปฏิบัติการ 3 ระบบ:
+
+jobs:
+  test:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: ['18.x', '20.x']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node_version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node_version }}
+
+    - name: npm install, build and test
+      run: |รีแอ็กต์เราเตอร์
+
+รหัส
+ดึงคำขอ
+การกระทำ
+รีแอ็กต์เราเตอร์/ .กิตฮับ/ เวิร์กโฟลว์
+-
+main.yml
+ใน
+หลัก
+
+แก้ไข
+
+ตัวอย่าง
+กำลังโหลดตัวอย่าง…
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+
+const { loadConfig } = require('./antispamConfigLoader');
+const config = loadConfig()
+
+ฟังก์ชั่น isSpam(ข้อความ, ชื่อผู้ใช้) {
+  หาก (config.antispam.block_usernames.includes(ชื่อผู้ใช้)) {
+    กลับ { สแปม-เป็นจริง เหตุผล: "ชื่อผู้ใช้ถูกบล็อค" };
+  -
+  สำหรับ (const kw ของ config.antispam.block_keywords) {
+    ถ้า (message.toLowerCase().includes(kw.toLowerCase())) {
+      กลับ { สแปม-จริง เหตุผล: `คีย์เวิร์ดที่ถูกบล็อค: ${kw}` };
+    -
+  -
+  หาก (config.antispam.block_links และ /https?:\/\/.test(ข้อความ)) {
+    กลับ { สแปม-จริง เหตุผล: "ลิงค์ถูกบล็อค" };
+  -
+  กลับ { สแปม-เท็จ เหตุผล: "" };
+-
+
+ฟังก์ชัน bugfixEnabled() {
+  ส่งคืน config.bugfix และ config.bugfix.enable_auto_patch;
+-
+
+// อธิบายการใช้งาน
+ถ้า (require.main === โมดูล) {
+  const userMessage = "นี่เป็นข้อเสนอฟรี คลิกที่นี่-http://spam.com";
+  const ชื่อผู้ใช้ = "spammer2";
+  const { spam, reason } = isSpam(userMessage, ชื่อผู้ใช้);
+  console.log("เป็นสแปมหรือไม่", สแปม, "| เหตุผล:", เหตุผล);
+  console.log("เปิดใช้งานการแก้ไขข้อบกพร่องอัตโนมัติแล้วหรือไม่", bugfixEnabled());
+}นำเข้าอีกครั้ง
+จาก antispam_config_loader นำเข้า load_config
+
+การกำหนดค่า = โหลด_การกำหนดค่า()
+
+def is_spam(ข้อความ, ชื่อผู้ใช้)-
+    -ขีดจำกัดอัตราการถ่ายภาพ (ระบบมีระบบนับแล้ว)
+    หากชื่อผู้ใช้อยู่ใน config.get("antispam", {}).get("block_usernames", [])-
+        กลับเป็น True, “ชื่อผู้ใช้ถูกบล็อค”
+
+    -คีย์เวิร์ดตัดการหยุด
+    สำหรับ kw ใน config["antispam"]["block_keywords"]-
+        ถ้า kw.lower() อยู่ใน message.lower()-
+            กลับเป็น True, f"คีย์เวิร์ดที่ถูกบล็อค-{กิโลวัตต์}"
+
+    -ตัดต่อลิงค์
+    หาก config["antispam"].get("block_links", False)-
+        ถ้า re.search(r'https?://', ​​ข้อความ)-
+            กลับเป็น True, “ลิงค์ถูกบล็อค”
+
+    กลับเป็น False, ""
+
+def bugfix_enabled()-
+    ส่งคืน config.get("bugfix", {}).get("enable_auto_patch", False)
+
+-อธิบายการใช้งาน
+ถ้า __name__ == "__main__"-
+    user_message = "ซื้อเลยที่ https://spamlink.com"
+    ชื่อผู้ใช้ = "spammer1"
+    สแปม, เหตุผล = is_spam(ข้อความผู้ใช้, ชื่อผู้ใช้)
+    พิมพ์("เป็นสแปมหรือไม่?", สแปม, "| เหตุผล:", เหตุผล)
+    พิมพ์("เปิดใช้งานการแก้ไขข้อบกพร่องอัตโนมัติแล้วหรือไม่", bugfix_enabled())
+พบผลลัพธ์ 10 รายการ
+การนำทางแผงช่วยเหลือ
+ตลาดซื้อขาย
+เอกสารประกอบ
+การเริ่มต้นใช้งานเวิร์กโฟลว์
+คู่มือนี้จะแสดงตัวอย่างพื้นฐานบางส่วนเพื่อช่วยให้คุณเริ่มต้นใช้งานได้ สำหรับเอกสาร GitHub Actions ฉบับเต็มเกี่ยวกับเวิร์กโฟลว์ โปรดดู " การกำหนดค่าเวิร์กโฟลว์ "
+
+การปรับแต่งเมื่อเวิร์กโฟลว์ถูกเรียกใช้
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานบนเหตุการณ์พุชไปยังสาขาmainและrelease/*
+
+on:
+  push:
+    branches:
+    - main
+    - release/*
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานตามpull_requestเหตุการณ์ที่กำหนดเป้าหมายที่mainสาขา
+
+on:
+  pull_request:
+    branches:
+    - main
+ตั้งค่าเวิร์กโฟลว์ของคุณให้ทำงานทุกวันในสัปดาห์ตั้งแต่วันจันทร์ถึงวันศุกร์ เวลา 2:00 น. UTC
+
+on:
+  schedule:
+  - cron: "0 2 * * 1-5"
+สำหรับข้อมูลเพิ่มเติม โปรดดู " เหตุการณ์ที่ทริกเกอร์เวิร์กโฟลว์ "
+
+การรันเวิร์กโฟลว์ด้วยตนเอง
+หากต้องการเรียกใช้เวิร์กโฟลว์ด้วยตนเอง คุณสามารถกำหนดค่าเวิร์กโฟลว์ของคุณให้ใช้workflow_dispatchเหตุการณ์ดังกล่าวได้ ซึ่งจะเปิดใช้งานปุ่ม "เรียกใช้เวิร์กโฟลว์" บนแท็บการดำเนินการ
+
+on:
+  workflow_dispatch:
+สำหรับข้อมูลเพิ่มเติม โปรดดู " การเรียกใช้เวิร์กโฟลว์ด้วยตนเอง "
+
+การรันงานของคุณบนระบบปฏิบัติการที่แตกต่างกัน
+GitHub Actions จัดเตรียมโฮสต์รันเนอร์สำหรับ Linux, Windows และ macOS
+
+หากต้องการตั้งค่าระบบปฏิบัติการให้กับงานของคุณ ให้ระบุระบบปฏิบัติการโดยใช้runs-on:
+
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
+ประเภทเครื่องเสมือนที่มีอยู่คือ:
+
+ubuntu-latest, ubuntu-22.04, หรือubuntu-20.04
+windows-latest, windows-2022, หรือwindows-2019
+macos-latest, macos-13, หรือmacos-12
+สำหรับข้อมูลเพิ่มเติม โปรดดู " สภาพแวดล้อมเสมือนสำหรับ GitHub Actions "
+
+การใช้การกระทำ
+Actions คือหน่วยโค้ดที่สามารถนำมาใช้ซ้ำได้ ซึ่งใครๆ ก็สร้างและแจกจ่ายได้บน GitHub คุณสามารถค้นหา Actions ต่างๆ ได้ในGitHub Marketplaceและในคลัง Actions อย่างเป็น ทางการ
+
+หากต้องการใช้การดำเนินการ คุณต้องระบุที่เก็บข้อมูลที่มีการดำเนินการนั้น นอกจากนี้ เราขอแนะนำให้คุณระบุแท็ก Git เพื่อให้แน่ใจว่าคุณใช้การดำเนินการเวอร์ชันที่เผยแพร่แล้ว
+
+- name: Setup Node
+  uses: actions/setup-node@v4
+  with:
+    node-version: '20.x'
+สำหรับข้อมูลเพิ่มเติม โปรดดู " รูปแบบเวิร์กโฟลว์สำหรับ GitHub Actions "
+
+การรันคำสั่ง
+คุณสามารถรันคำสั่งบนเครื่องเสมือนของงานได้
+
+- name: Install Dependencies
+  run: npm install
+สำหรับข้อมูลเพิ่มเติม โปรดดู " รูปแบบเวิร์กโฟลว์สำหรับ GitHub Actions "
+
+การรันงานผ่านเมทริกซ์ของระบบปฏิบัติการและเวอร์ชันรันไทม์
+คุณสามารถรันงานโดยอัตโนมัติผ่านชุดค่าที่แตกต่างกัน เช่น ไลบรารีโค้ดหรือระบบปฏิบัติการที่แตกต่างกัน
+
+ตัวอย่างเช่น งานนี้ใช้กลยุทธ์เมทริกซ์เพื่อทำงานบน Node 3 เวอร์ชันและระบบปฏิบัติการ 3 ระบบ:
+
+jobs:
+  test:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: ['18.x', '20.x']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node_version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node_version }}
+
+    - name: npm install, build and test
+      run: |
+steps:
+- run: npm publish
+  if: github.event_name == 'push'
+const { loadConfig } = require('./antispamConfigLoader');
+const config = loadConfig();
+
+function isSpam(message, username) {
+  if (config.antispam.block_usernames.includes(username)) {
+    return { spam: true, reason: "Blocked username" };
+  }
+  for (const kw of config.antispam.block_keywords) {
+    if (message.toLowerCase().includes(kw.toLowerCase())) {
+      return { spam: true, reason: `Blocked keyword: ${kw}` };
+    }
+  }
+  if (config.antispam.block_links && /https?:\/\//.test(message)) {
+    return { spam: true, reason: "Blocked link" };
+  }
+  return { spam: false, reason: "" };
+}
+
+function bugfixEnabled() {
+  return config.bugfix && config.bugfix.enable_auto_patch;
+}
+
+// ตัวอย่างการใช้งาน
+if (require.main === module) {
+  const userMessage = "This is a free offer, click here: http://spam.com";
+  const username = "spammer2";
+  const { spam, reason } = isSpam(userMessage, username);
+  console.log("Is spam?", spam, "| Reason:", reason);
+  console.log("Bugfix auto patch enabled?", bugfixEnabled());
+}import re
+from antispam_config_loader import load_config
+
+config = load_config()
+
+def is_spam(message, username):
+    # ตรวจสอบ rate limit (สมมติว่ามีระบบนับแล้ว)
+    if username in config.get("antispam", {}).get("block_usernames", []):
+        return True, "Blocked username"
+
+    # ตรวจสอบ keyword ต้องห้าม
+    for kw in config["antispam"]["block_keywords"]:
+        if kw.lower() in message.lower():
+            return True, f"Blocked keyword: {kw}"
+
+    # ตรวจสอบลิงก์
+    if config["antispam"].get("block_links", False):
+        if re.search(r'https?://', message):
+            return True, "Blocked link"
+
+    return False, ""
+
+def bugfix_enabled():
+    return config.get("bugfix", {}).get("enable_auto_patch", False)
+
+# ตัวอย่างการใช้งาน
+if __name__ == "__main__":
+    user_message = "Buy now at https://spamlink.com"
+    username = "spammer1"
+    spam, reason = is_spam(user_message, username)
+    print("Is spam?", spam, "| Reason:", reason)
+    print("Bugfix auto patch enabled?", bugfix_enabled())
